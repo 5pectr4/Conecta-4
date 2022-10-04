@@ -1,0 +1,16 @@
+.content{
+    display:flex;
+    flex-wrap: nowrap;
+    margin: 0px 10px;
+}
+.tablero {
+    background-color: darkcyan;
+    flex: 3;
+}
+.info {
+    display:flex;
+    align-items: center;
+    flex:1;
+    background-color: darkcyan;
+    border-left: 10px solid white;
+}

@@ -1,0 +1,25 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+.juego {
+    display: flex;
+}
+.tablero {
+    display: flex;
+    margin: 0px 20px;
+    justify-content: center;
+    background-color: darkcyan;
+    flex: 3;
+    
+}
+table {
+    background-color: darkcyan;
+    border-spacing: 10px;
+}
+td {
+    width: 140px;
+    height: 140px;
+    border-radius: 100%;
+    box-shadow: -5px -5px 10px rgb(50,50,50) inset;
+}

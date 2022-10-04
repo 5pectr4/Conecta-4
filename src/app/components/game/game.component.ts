@@ -12,6 +12,7 @@ export class GameComponent implements OnInit {
   readonly FILAS = 6
   readonly COLUMNAS = 7
 
+  //Variables
   columnSetHTML = new Array();
   turno = "";
   casillasJugadas: number[][] = new Array();
@@ -25,7 +26,6 @@ export class GameComponent implements OnInit {
   partidasGanadasRojo = 0
 
   ngOnInit(): void {
-
     this.columnSetHTML = new Array();
     this.turno = "Amarillo";
     this.casillasJugadas = new Array(this.FILAS).fill(0).map(() => new Array(this.COLUMNAS).fill(0));
@@ -33,22 +33,23 @@ export class GameComponent implements OnInit {
     this.casillasJugadasRojo = new Array(this.FILAS).fill(0).map(() => new Array(this.COLUMNAS).fill(0));
     this.jugadasAmarillo = 0;
     this.jugadasRojo = 0;
-
+    
     //Añade los EventListener a los círculos
-    for (let i = 0; i <= this.FILAS; i++) {
+    for (let i = 0; i < this.FILAS; i++) {
       this.columnSetHTML.push(document.querySelectorAll(".fila-" + i))
     }
-
+    
     for (let columnas of this.columnSetHTML) { 
       for (let circle of columnas) {
         circle.style.backgroundColor = "aqua"
         circle.addEventListener("click", (event: Event) => { this.funJugar(event) })
       }
     }
-
+    
+    console.log(this.columnSetHTML)
   }
 
-  restart() {
+  reiniciar() {
     this.turno = "Amarillo";
     this.casillasJugadas = new Array(this.FILAS).fill(0).map(() => new Array(this.COLUMNAS).fill(0));
     this.casillasJugadasAmarillo = new Array(this.FILAS).fill(0).map(() => new Array(this.COLUMNAS).fill(0));
@@ -80,9 +81,10 @@ export class GameComponent implements OnInit {
 
     let eventTarget = event.target as HTMLTableElement;
     // Para cualquier Array [fila][columna]
-    let column = parseInt(eventTarget.className.charAt(7))
+    let column = parseInt(eventTarget.className.charAt(15))
     let row = 5 - (this.contarFichasColumna(this.casillasJugadas, column))
-
+    console.log(row)
+    
     //Si ya está llena la columna
     if (row < 0) {
 
@@ -133,7 +135,7 @@ export class GameComponent implements OnInit {
     } else {
       this.partidasGanadasRojo++
     }
-    this.restart()
+    this.reiniciar()
 
 
   }
