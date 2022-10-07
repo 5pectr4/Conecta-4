@@ -9,8 +9,7 @@ export class InfoChartComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   jugadasAmarillo = 0;
   jugadasRojo = 0;
