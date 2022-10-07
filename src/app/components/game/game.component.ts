@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-game',
@@ -7,13 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameComponent implements OnInit {
 
+  
   //Constantes
   readonly CONNECTA = 4
   readonly FILAS = 6
   readonly COLUMNAS = 7
   readonly JUGADORAMARILLO = "Amarillo"
   readonly JUGADORROJO = "Rojo"
-
+  
   //Variables
   columnSetHTML = new Array();
   turno = "";
@@ -24,11 +25,17 @@ export class GameComponent implements OnInit {
   jugadasRojo = new Array();
   numJugadasAmarillo = 0;
   numJugadasRojo = 0;
-
+  
   //Partidas ganadas del amarillo y rojo
   partidasGanadasAmarillo = 0
   partidasGanadasRojo = 0
-
+  
+  
+  @Output() emitter = new EventEmitter<number>(); //Array
+  sendData() {
+    this.emitter.emit(this.numJugadasAmarillo); //new Array(this.numJugadasAmarillo,this.numJugadasRojo,this.partidasGanadasAmarillo,this.partidasGanadasRojo)
+  }
+  
   ngOnInit(): void {
     this.columnSetHTML = new Array();
     this.turno = "Amarillo";
@@ -39,21 +46,21 @@ export class GameComponent implements OnInit {
     this.jugadasRojo = new Array();
     this.numJugadasAmarillo = 0;
     this.numJugadasRojo = 0;
-
+    
     //Añade los EventListener a los círculos
     for (let i = 0; i < this.FILAS; i++) {
       this.columnSetHTML.push(document.querySelectorAll(".fila-" + i))
     }
-
+    
     for (let columnas of this.columnSetHTML) {
       for (let circle of columnas) {
         circle.style.backgroundColor = "aqua"
         circle.addEventListener("click", (event: Event) => { this.funJugar(event) })
       }
     }
-
+    
   }
-
+  
   reiniciar() {
     this.turno = "Amarillo";
     this.casillasJugadas = new Array(this.FILAS).fill(0).map(() => new Array(this.COLUMNAS).fill(0));
@@ -69,11 +76,11 @@ export class GameComponent implements OnInit {
       }
     }
   }
-
+  
   cambiarTurno(): void {
     this.turno = this.turno == "Amarillo" ? "Rojo" : "Amarillo";
   }
-
+  
   contarFichasColumna(casillasJugadas: Array<Array<number>>, columna: number): number {
     let contador = 0;
     casillasJugadas.forEach(fila => {
@@ -83,20 +90,20 @@ export class GameComponent implements OnInit {
     });
     return contador;
   }
-
+  
   funJugar(event: Event) {
-
-
+    
+    
     let eventTarget = event.target as HTMLTableElement;
     // Para cualquier Array [fila][columna]
     let column = parseInt(eventTarget.className.charAt(15))
     let row = this.FILAS - (this.contarFichasColumna(this.casillasJugadas, column)) - 1
-
+    
     //Si ya está llena la columna
     if (row < 0) {
-
+      
       alert("Jugada inválida, prueba otro movimiento")
-
+      
     } else {
       if (this.turno == "Amarillo") {
         this.casillasJugadas[row][column] = 1
@@ -111,20 +118,20 @@ export class GameComponent implements OnInit {
         this.numJugadasRojo++
         this.jugadasRojo.push(new Array(row, column))
       }
-
+      
       this.cambiarTurno()
       this.revisarTablero(this.numJugadasAmarillo + this.numJugadasRojo);
     }
-
+    
   }
-
+  
   revisarTablero(numJugadas: number) {
     //Se ubicaria en la casilla actual 
     this.checkVertical();
     this.checkHorizontal();
     this.checkDiagonals();
   }
-
+  
   //******Cambiar esto a una clase aparte*******
   traspilar(array: number[][]): number[][] {
     let array2: number[][] = new Array(this.COLUMNAS).fill(0).map(() => new Array(this.FILAS).fill(0))
