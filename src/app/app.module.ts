@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { GameComponent } from './components/game/game.component';
-import { InfoChartComponent } from './components/info-chart/info-chart.component';
-import { MainComponent } from './components/main/main.component'
 
 
 @NgModule({
@@ -13,8 +11,6 @@ import { MainComponent } from './components/main/main.component'
   declarations: [
     AppComponent,
     GameComponent,
-    InfoChartComponent,
-    MainComponent,
   ],
   imports: [
     BrowserModule,
